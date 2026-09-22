@@ -17,7 +17,7 @@ services:
   db:
     image: mongo:5.0.32-focal
     volumes:
-      - .volumes/db:/data/db
+      - hdx_db:/data/db
     # WARNING: Exposing the database port will make it accessible from outside the container,
     # potentially allowing unauthorized access. If you uncomment the ports below,
     # ensure to secure your database (e.g., with strong authentication, proper network rules, and firewalls).
@@ -117,10 +117,14 @@ services:
     volumes:
       - ./docker/clickhouse/local/config.xml:/etc/clickhouse-server/config.xml
       - ./docker/clickhouse/local/users.xml:/etc/clickhouse-server/users.xml
-      - .volumes/ch_data:/var/lib/clickhouse
-      - .volumes/ch_logs:/var/log/clickhouse-server
+      - hdx_ch_data:/var/lib/clickhouse
+      - hdx_ch_logs:/var/log/clickhouse-server
     restart: on-failure
     networks:
       - internal
 networks:
   internal:
+volumes:
+  hdx_db:
+  hdx_ch_data:
+  hdx_ch_logs:
